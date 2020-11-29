@@ -1,24 +1,24 @@
 const films = require('../models/app');
 const router = require('express').Router();
-const  watch = require('../models/watch');
+const watch = require('../models/watch');
+
+//works
 router.get('/api/films', async(req, res) => {
     //destructuring page and limit and the set default values
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10 } = parseInt(req.query);
+    
     try {
         
     // execute query with page and limit values
-        const films = await films.find()
+        const paginate = await films.find()
         .sort({title:1}) 
-        .limit(limit * 1)
-        .skip((page - 1) * limit)
+        .limit(limit)
+        .skip(page * limit)
         .exec();
         
-    // get total documents in the Posts collection
-        const count = await films.countDocuments();
+
         res.status(200).json({
-            films,
-            totalPages: films.ceil(count / limit),
-            currentPage: page
+            paginate: paginate
         })
     } catch(error){
         res.status(400).json({
@@ -29,10 +29,12 @@ router.get('/api/films', async(req, res) => {
    
 })
 
+
+//works but gives an empty array as a response
 router.get('/film/actor', async (req, res) => {
-    const keyword = req.params.keyword;
+    const keyword = req.query.keyword;
     try {
-        const film = await films.find({ title: { $regex: keyword, $options: $i } }) //i for case insensitive
+        const film = await films.find({ title: { $regex: keyword, $options: 'i' } }) //i for case insensitive
         res.status(200).json({
             status: true,
             res: film
@@ -41,11 +43,13 @@ router.get('/film/actor', async (req, res) => {
         res.status(400).json({
             status: true,
             error: err.message
-            })
+        })
        
     }
 
-})
+});
+
+//works
 router.post('/watch', (req, res) => {
     try {
         const newFilm = watch.create({
@@ -62,29 +66,28 @@ router.post('/watch', (req, res) => {
     } catch (error) {
         res.status(400).json({
             status: false,
-            error: err.msg
+            error: err.message
         })
     }
     
 })
 
+//works
 router.get('/watch', async (req, res) => {
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10 } = parseInt(req.query);
     try {
         
     // execute query with page and limit values
         const films = await watch.find({})
         .sort({title:1}) 
-        .limit(limit * 1)
-        .skip((page - 1) * limit)
+        .limit(limit)
+        .skip(page * limit)
         .exec();
         
-    // get total documents in the Posts collection
-        const count = await films.countDocuments();
+   
         res.status(200).json({
-            films,
-            totalPages: films.ceil(count / limit),
-            currentPage: page
+            status: true,
+            films: films
         })
     } catch(error){
         res.status(400).json({
@@ -93,10 +96,12 @@ router.get('/watch', async (req, res) => {
        }) 
     }
    
-    
-})
  
-router.delete('/watch', async (req, res) => {
+});
+ 
+
+//works
+router.delete('/watch/:id', async (req, res) => {
     try {
         let _id = req.params.id
         let newId = await watch.findByIdAndDelete(_id, (err, id) => {

@@ -3,26 +3,25 @@
 const movie = require('../models/app');
 
 exports.film = new movie({
-
-          title: req.body.title,
-          year: req.body.year,
-          rated: req.body.rated,
-          runtime: req.body.runtime,
-          countries: req.body.countries,
-          genres: req.body.genres,
-          director: req.body.director,
-          writers: req.body.writers,
-          actors: req.body.actors,
-          plot: req.body.plot,
-          poster: req.body.poster,
-          imdb: req.body.imdb,
-          tomato: req.body.tomato,
-          metacritic: req.body.matacritic,
-          awards: req.body.awards,
-          type: req.body.type
+    title: String,
+    year: Number,
+    rated: String,
+    runtime: Number,
+    countries: Array,
+    genres: Array,
+    director: String,
+    writers: Array,
+    actors: Array,
+    plot: String,
+    poster: String,
+    imdb: Object,
+    tomato: Object,
+    metacritic: Number,
+    awards: Object,
+    type: String       
 });
 
-modules.ex
+
 // }
 //  app.get('/api/films', async(req, res) => {
     
