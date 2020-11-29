@@ -2,7 +2,7 @@ const films = require('../models/app');
 const router = require('express').Router();
 const watch = require('../models/watch');
 
-//works
+//works but not sure I did the assignment
 router.get('/api/films', async(req, res) => {
     //destructuring page and limit and the set default values
     const { page = 1, limit = 10 } = parseInt(req.query);
@@ -11,7 +11,7 @@ router.get('/api/films', async(req, res) => {
         
     // execute query with page and limit values
         const paginate = await films.find()
-        .sort({title:1}) 
+        .sort({title:'asc'}) 
         .limit(limit)
         .skip(page * limit)
         .exec();
@@ -79,7 +79,6 @@ router.get('/watch', async (req, res) => {
         
     // execute query with page and limit values
         const films = await watch.find({})
-        .sort({title:1}) 
         .limit(limit)
         .skip(page * limit)
         .exec();

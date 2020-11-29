@@ -1,1 +1,1 @@
-GET http://localhost:3000/api/films?page=1&limit=2
+GET http://localhost:3000/api/films?page=2&limit=10
