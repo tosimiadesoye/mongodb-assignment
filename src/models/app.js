@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const MovieSchema = new Schema({
+const FilmSchema = new Schema({
     title: String,
     year: Number,
     rated: String,
@@ -20,6 +20,6 @@ const MovieSchema = new Schema({
     type: String
 
 })
-// MovieSchema.plugin(aggregatePaginate);
-const movie = mongoose.model("Films", MovieSchema);
+// FilmSchema.plugin(aggregatePaginate);
+const movie = mongoose.model("Films", FilmSchema);
 module.exports = movie
