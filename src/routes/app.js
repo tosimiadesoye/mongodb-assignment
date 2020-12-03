@@ -2,15 +2,16 @@ const films = require('../models/app');
 const router = require('express').Router();
 const watch = require('../models/watch');
 
-//works but not sure I did the assignment
-router.get('/api/films', async(req, res) => {
+//works 
+router.get('/api/films/:pId', async(req, res) => {
     //destructuring page and limit and the set default values
-    const { page = 1, limit = 10 } = parseInt(req.query);
+    console.log(req.params.pId, "your pId")
+    const { page = req.params.pId, limit = 10 } = parseInt(req.query);
     
     try {
         
     // execute query with page and limit values
-        const paginate = await films.find()
+        const paginate = await films.find({})
         .sort({title:'asc'}) 
         .limit(limit)
         .skip(page * limit)
@@ -30,7 +31,7 @@ router.get('/api/films', async(req, res) => {
 })
 
 
-//works but gives an empty array as a response
+//works 
 router.get('/film/actor', async (req, res) => {
     const keyword = req.query.keyword;
     try {
@@ -73,8 +74,8 @@ router.post('/watch', (req, res) => {
 })
 
 //works
-router.get('/watch', async (req, res) => {
-    const { page = 1, limit = 10 } = parseInt(req.query);
+router.get('/watch/:pId', async (req, res) => {
+    const { page = req.params.pId, limit = 10 } = parseInt(req.query);
     try {
         
     // execute query with page and limit values
