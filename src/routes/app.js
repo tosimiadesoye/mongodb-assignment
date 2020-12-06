@@ -12,7 +12,7 @@ router.get('/api/films/:pId', async(req, res) => {
         
     // execute query with page and limit values
         const paginate = await films.find({})
-        .sort({title:'asc'}) 
+        .sort({title:'abc'}) 
         .limit(limit)
         .skip(page * limit)
         .exec();
@@ -35,7 +35,16 @@ router.get('/api/films/:pId', async(req, res) => {
 router.get('/film/actor', async (req, res) => {
     const keyword = req.query.keyword;
     try {
-        const film = await films.find({ title: { $regex: keyword, $options: 'i' } }) //i for case insensitive
+        const film = await films.find({
+            actors:
+            {
+                $in: [
+                    new RegExp(keyword, 'i')
+                    // $regex: keyword,
+                    // $options: 'i'
+                ]
+            }
+        }) //i for case insensitive
         res.status(200).json({
             status: true,
             res: film
