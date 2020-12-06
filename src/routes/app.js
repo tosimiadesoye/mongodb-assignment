@@ -35,14 +35,17 @@ router.get('/api/films/:pId', async(req, res) => {
 router.get('/film/actor', async (req, res) => {
     const keyword = req.query.keyword;
     try {
+        
+        
+
         const film = await films.find({
             actors:
             {
-                $in: [
-                    new RegExp(keyword, 'i')
-                    // $regex: keyword,
-                    // $options: 'i'
-                ]
+                //$in: [
+                    // new RegExp(keyword, 'i')
+                    $regex: keyword,
+                     $options: 'i'
+               // ]
             }
         }) //i for case insensitive
         res.status(200).json({
