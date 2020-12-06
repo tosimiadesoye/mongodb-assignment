@@ -38,15 +38,7 @@ router.get('/film/actor', async (req, res) => {
         
         
 
-        const film = await films.find({
-            actors:
-            {
-                //$in: [
-                    // new RegExp(keyword, 'i')
-                    $regex: keyword,
-                     $options: 'i'
-               // ]
-            }
+        const film = await films.find({actors:{$regex: keyword,$options: 'i'}
         }) //i for case insensitive
         res.status(200).json({
             status: true,
